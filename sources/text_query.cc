@@ -36,11 +36,10 @@ std::string TextQuery::text_line(line_no line) const{
 }
 
 
-std::set<TextQuery::line_no> TextQuery::run_query(std::string& word) const{
+std::set<TextQuery::line_no> TextQuery::run_query(const std::string& word) const{
     std::map<std::string, std::set<line_no> >::const_iterator iter = m_word_map.find(word);
     if (iter != m_word_map.end())
         return iter->second;
     
     return std::set<line_no>(); // empty set
-    
 }

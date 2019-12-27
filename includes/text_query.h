@@ -13,7 +13,7 @@ class TextQuery{
         typedef std::vector<std::string>::size_type line_no; // use line_no as alias
         void read_file(std::ifstream& is){ store_file(is); build_map(); }
         std::string text_line(line_no) const;
-        std::set<line_no> run_query(std::string&) const;
+        std::set<line_no> run_query(const std::string&) const;
 
     private:
         std::vector<std::string> m_text; // save the whole text
