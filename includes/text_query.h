@@ -14,6 +14,7 @@ class TextQuery{
         void read_file(std::ifstream& is){ store_file(is); build_map(); }
         std::string text_line(line_no) const;
         std::set<line_no> run_query(const std::string&) const;
+        line_no size() const { return m_text.size(); }
 
     private:
         std::vector<std::string> m_text; // save the whole text
