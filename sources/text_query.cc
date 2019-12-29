@@ -43,3 +43,11 @@ std::set<TextQuery::line_no> TextQuery::run_query(const std::string& word) const
     
     return std::set<line_no>(); // empty set
 }
+
+
+void TextQuery::show_lines(const std::set<line_no>& lines, std::ostream& os) const{
+    for (std::set<line_no>::iterator iter = lines.begin(); iter != lines.end(); ++iter){
+        std::set<line_no>::size_type idx = &(*iter) - &(*lines.begin());
+        os << "( " << ++idx << " )  " << m_text[*iter] << std::endl;  
+    }
+}

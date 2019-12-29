@@ -11,20 +11,27 @@ class Query{
     friend Query operator~(const Query&);
 
     public:
+        Query(): m_query(0), m_ref_count(0){}
         Query(const std::string& word);
         Query(const Query& q): m_query(q.m_query), m_ref_count(q.m_ref_count){ ++*m_ref_count; }
         ~Query(){ decr_ref_count(); }
         std::set<QueryBase::line_no> eval(const TextQuery& text) const { return m_query->eval(text); }
         std::ostream& display(std::ostream& os = std::cout) const { return m_query->display(os); }
 
-        Query& operator=(const Query&);
+        Query& operator=(const Query& q){
+            ++*q.m_ref_count;
+            decr_ref_count();
+            m_query = q.m_query;
+            m_ref_count = q.m_ref_count;
+            return *this;
+        }
 
     private:
         QueryBase* m_query;
         size_t* m_ref_count;
         Query(QueryBase* q): m_query(q), m_ref_count(new size_t(1)){}
-        void decr_ref_count(){ 
-            if (m_ref_count-- == 0) {
+        void decr_ref_count(){
+            if (m_ref_count && m_query && *m_ref_count-- == 0) {
                 delete m_query; 
                 delete m_ref_count;
             } 
@@ -48,7 +55,7 @@ class BinaryQuery: public QueryBase{
 
     private:
         virtual std::ostream& display(std::ostream& os = std::cout) const{
-            return os << m_lhs << " " << m_operation << " " << m_rhs; 
+            return os << "(" << m_lhs << " " << m_operation << " " << m_rhs << ")"; 
         }
 
     protected:

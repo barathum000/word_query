@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 #include <fstream>
-
+#include <iostream>
 
 class TextQuery{
     public:
@@ -15,6 +15,7 @@ class TextQuery{
         std::string text_line(line_no) const;
         std::set<line_no> run_query(const std::string&) const;
         line_no size() const { return m_text.size(); }
+        void show_lines(const std::set<line_no>& lines, std::ostream& os = std::cout) const;
 
     private:
         std::vector<std::string> m_text; // save the whole text
